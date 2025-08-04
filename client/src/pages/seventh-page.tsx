@@ -65,29 +65,35 @@ export default function SeventhPage() {
     }, 3000);
   };
 
-  // İlk Hayır butonunun kaçması ve 3. hover'da imha olması
+  // İlk Hayır butonunun hafif hareket etmesi ve 3. hover'da imha olması
   const handleFirstNoButtonHover = () => {
     if (!firstNoButtonRef.current) return;
     
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    
-    // Rastgele yeni pozisyon
-    const newX = Math.random() * (windowWidth - 200);
-    const newY = Math.random() * (windowHeight - 200);
-    
-    setFirstNoButtonPosition({ x: newX, y: newY });
-    
     setFirstHoverCount(prev => {
       const newCount = prev + 1;
-      if (newCount >= 3) {
+      
+      if (newCount < 3) {
+        // 1. ve 2. hover'da sadece hafif hareket
+        const currentRect = firstNoButtonRef.current?.getBoundingClientRect();
+        if (currentRect) {
+          const moveDistance = 50 + (newCount * 30); // Her hover'da biraz daha uzağa
+          const randomDirection = Math.random() * 2 * Math.PI;
+          const newX = Math.max(100, Math.min(window.innerWidth - 200, 
+            currentRect.left + Math.cos(randomDirection) * moveDistance));
+          const newY = Math.max(100, Math.min(window.innerHeight - 200, 
+            currentRect.top + Math.sin(randomDirection) * moveDistance));
+          
+          setFirstNoButtonPosition({ x: newX, y: newY });
+        }
+      } else {
         // 3. hover'da imha et
         setTimeout(() => {
           setFirstShowExplosion(true);
           setFirstNoButtonVisible(false);
           setTimeout(() => setFirstShowExplosion(false), 1500);
-        }, 200);
+        }, 300);
       }
+      
       return newCount;
     });
   };
@@ -583,25 +589,39 @@ export default function SeventhPage() {
                     Evet ♡
                   </Button>
                   
-                  {firstNoButtonVisible && (
+                  {firstNoButtonVisible && firstHoverCount === 0 && (
                     <Button
                       ref={firstNoButtonRef}
                       onMouseEnter={handleFirstNoButtonHover}
-                      onFocus={handleFirstNoButtonHover}
-                      onMouseMove={handleFirstNoButtonHover}
                       onClick={(e) => {
                         e.preventDefault();
                         handleFirstNoButtonHover();
                         return false;
                       }}
-                      className={`px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-200 fixed z-50 cursor-not-allowed ${
+                      className="px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                    >
+                      Hayır
+                    </Button>
+                  )}
+                  
+                  {firstNoButtonVisible && firstHoverCount > 0 && (
+                    <Button
+                      ref={firstNoButtonRef}
+                      onMouseEnter={handleFirstNoButtonHover}
+                      onFocus={handleFirstNoButtonHover}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFirstNoButtonHover();
+                        return false;
+                      }}
+                      className={`px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-500 fixed z-40 cursor-not-allowed ${
                         firstHoverCount >= 2 ? 'animate-pulse' : 'animate-bounce'
                       }`}
                       style={{
                         left: `${firstNoButtonPosition.x}px`,
                         top: `${firstNoButtonPosition.y}px`,
                         transform: 'translate(-50%, -50%)',
-                        transition: 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                        transition: 'all 0.5s ease-out',
                       }}
                     >
                       Hayır {firstHoverCount >= 1 ? '😠' : ''} {firstHoverCount >= 2 ? '💀' : ''}
