@@ -201,7 +201,7 @@ export default function FourthPage() {
             {/* Action Buttons */}
             <div className="flex flex-col md:flex-row gap-4 justify-center">
               <Button 
-                onClick={() => setLocation("/landing")}
+                onClick={() => setLocation("/fifth-page")}
                 className="px-16 py-5 bg-gradient-to-r from-[var(--purple-primary)] to-[var(--purple-accent)] hover:from-[var(--purple-accent)] hover:to-[var(--purple-primary)] text-white font-inter font-semibold text-lg rounded-full transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
               >
                 Diğer Sayfaya Git ♡

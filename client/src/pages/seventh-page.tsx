@@ -13,11 +13,15 @@ export default function SeventhPage() {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [noButtonVisible, setNoButtonVisible] = useState(true);
   const [showExplosion, setShowExplosion] = useState(false);
+  const [firstNoButtonPosition, setFirstNoButtonPosition] = useState({ x: 0, y: 0 });
+  const [firstNoButtonVisible, setFirstNoButtonVisible] = useState(true);
+  const [firstShowExplosion, setFirstShowExplosion] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showFinalStory, setShowFinalStory] = useState(false);
   const [storyFadeIn, setStoryFadeIn] = useState(false);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const noButtonRef = useRef<HTMLButtonElement>(null);
+  const firstNoButtonRef = useRef<HTMLButtonElement>(null);
 
   // Film sahnesi metinleri
   const cinematicTexts = [
@@ -58,6 +62,29 @@ export default function SeventhPage() {
     setTimeout(() => {
       setLocation("/");
     }, 3000);
+  };
+
+  // İlk Hayır butonunun agresif kaçması
+  const handleFirstNoButtonHover = () => {
+    if (!firstNoButtonRef.current) return;
+    
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Rastgele yeni pozisyon - daha agresif
+    const newX = Math.random() * (windowWidth - 200);
+    const newY = Math.random() * (windowHeight - 200);
+    
+    setFirstNoButtonPosition({ x: newX, y: newY });
+    
+    // %70 ihtimal ile kaybolsun
+    setTimeout(() => {
+      if (Math.random() > 0.3) {
+        setFirstShowExplosion(true);
+        setFirstNoButtonVisible(false);
+        setTimeout(() => setFirstShowExplosion(false), 1500);
+      }
+    }, 150);
   };
 
   const handleYesClick = () => {
@@ -543,7 +570,7 @@ export default function SeventhPage() {
                   Bu sayfayı görmek için heyecanlı mısın?
                 </h2>
                 
-                <div className="flex flex-col md:flex-row gap-6 justify-center">
+                <div className="flex flex-col md:flex-row gap-6 justify-center relative">
                   <Button
                     onClick={handleYesClick}
                     className="px-16 py-6 bg-gradient-to-r from-[var(--purple-primary)] to-[var(--purple-accent)] hover:from-[var(--purple-accent)] hover:to-[var(--purple-primary)] text-white font-inter font-bold text-xl rounded-full transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
@@ -551,12 +578,34 @@ export default function SeventhPage() {
                     Evet ♡
                   </Button>
                   
-                  <Button
-                    onClick={handleNoClick}
-                    className="px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-inter font-bold text-xl rounded-full transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
-                  >
-                    Hayır
-                  </Button>
+                  {firstNoButtonVisible && (
+                    <Button
+                      ref={firstNoButtonRef}
+                      onMouseEnter={handleFirstNoButtonHover}
+                      onFocus={handleFirstNoButtonHover}
+                      onMouseMove={handleFirstNoButtonHover}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFirstNoButtonHover();
+                        return false;
+                      }}
+                      className="px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-200 fixed z-50 cursor-not-allowed animate-bounce"
+                      style={{
+                        left: `${firstNoButtonPosition.x}px`,
+                        top: `${firstNoButtonPosition.y}px`,
+                        transform: 'translate(-50%, -50%)',
+                        transition: 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                      }}
+                    >
+                      Hayır 😈
+                    </Button>
+                  )}
+                  
+                  {firstShowExplosion && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-6xl animate-ping">💥</div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
