@@ -1,8 +1,8 @@
-# Personal Romantic Web Application
+# afyonlu - Personal Web Application
 
 ## Overview
 
-This is a Turkish-language romantic web application featuring interactive games, story pages, and personal messaging. The app is built as a full-stack application with React frontend and Express backend, designed as a personal gift with romantic themes, games, and interactive elements. It includes multiple themed pages with games like maze navigation and heart-collection puzzles, along with wish submission functionality.
+This is a romantic-themed personal web application built as an interactive love story between Berat and Nisa. The application features multiple pages with games, romantic messages, and interactive elements, all presented in Turkish. It includes a complex maze game with moving monsters, a platform game, interactive heart-filling mechanics, envelope message systems, and wish submission functionality. The application is designed as a single-page application (SPA) with smooth navigation between different themed pages.
 
 ## User Preferences
 
@@ -12,66 +12,79 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript for type safety and modern React features
-- **Routing**: Wouter for lightweight client-side routing with 7 themed pages
-- **Styling**: Tailwind CSS with custom purple/romantic color scheme and shadcn/ui components
-- **State Management**: React Query (@tanstack/react-query) for server state management
+- **Styling**: Tailwind CSS with custom CSS variables for consistent theming and responsive design
+- **UI Components**: shadcn/ui component library built on Radix UI primitives for accessible, high-quality components
+- **Routing**: Wouter for lightweight client-side routing in SPA configuration
+- **State Management**: TanStack React Query for server state management and caching
 - **Build Tool**: Vite for fast development and optimized production builds
-- **UI Components**: shadcn/ui component library built on Radix UI primitives
+- **Fonts**: Custom Google Fonts integration (Playfair Display for headings, Inter for body text)
 
 ### Backend Architecture
-- **Framework**: Express.js with TypeScript running on Node.js with ES modules
-- **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
-- **Session Management**: Configured for connect-pg-simple PostgreSQL sessions
-- **API Design**: RESTful API with rate limiting and error handling
+- **Framework**: Express.js with TypeScript for API endpoints
+- **Runtime**: Node.js with ES modules support
+- **Database ORM**: Drizzle ORM configured for PostgreSQL with schema-first approach
+- **Session Management**: Prepared infrastructure for connect-pg-simple for PostgreSQL sessions
 - **Development**: tsx for TypeScript execution in development mode
+- **Storage**: In-memory storage implementation with interface for future database integration
+
+### Key Design Patterns
+- **Component Architecture**: Reusable UI components with consistent styling through Tailwind classes
+- **Error Boundaries**: React error boundaries for graceful error handling with custom error pages
+- **Responsive Design**: Mobile-first approach with responsive breakpoints
+- **Game Architecture**: Canvas-based games with state management for player positions, collision detection, and game mechanics
+- **Route-based Code Splitting**: Each page is a separate component for better performance
+- **Type Safety**: Comprehensive TypeScript integration across frontend and backend with shared schema types
 
 ### Database Schema
-- **Users Table**: ID, username, password for potential authentication
-- **Wishes Table**: ID, wish content, creation timestamp for user submissions
-- **Schema Management**: Drizzle Kit for migrations and PostgreSQL dialect
+- **Users Table**: ID, username, password for future authentication
+- **Wishes Table**: ID, wish content, created timestamp for storing user wishes
+- **Shared Types**: Drizzle-generated types shared between frontend and backend for type consistency
 
-### Application Structure
-```
-├── client/                 # React frontend application
-│   ├── src/
-│   │   ├── components/     # Reusable UI components and shadcn/ui
-│   │   ├── pages/          # 7 themed route components
-│   │   ├── hooks/          # Custom React hooks
-│   │   └── lib/            # Utilities and query client
-├── server/                 # Express backend
-│   ├── routes.ts          # API endpoints with rate limiting
-│   ├── storage.ts         # Data access layer with memory fallback
-│   └── vite.ts            # Development server integration
-├── shared/                 # Shared TypeScript definitions
-│   └── schema.ts          # Database schema and Zod validation
-└── migrations/            # Database migration files
-```
+### Navigation Flow
+The application implements a sequential navigation system:
+1. Sixth Page (Homepage/Landing) - Complex maze game with moving monsters
+2. Landing Page - Welcome message and confirmation
+3. Second Page - Heart placement drag-and-drop game
+4. Third Page - Interactive heart-filling with romantic messages
+5. Fourth Page - Envelope opening with multiple love messages
+6. Fifth Page - Wish submission form with privacy toggle
+7. Seventh Page - Final interactive proposal with animated elements
 
-### Key Features
-- **Interactive Games**: Complex maze game with moving monsters, heart collection puzzle, drag-and-drop mechanics
-- **Romantic Content**: Turkish language love messages, romantic themes, and personal storytelling
-- **Wish System**: User can submit wishes that are stored in the database
-- **Responsive Design**: Mobile-friendly interface with Tailwind CSS
-- **Error Handling**: Comprehensive error boundaries and user feedback
-- **Loading States**: Elegant loading screens and transitions
+### Deployment Architecture
+- **GitHub Pages Compatibility**: SPA routing configuration with 404.html redirect handling
+- **Build Process**: Automated build pipeline with GitHub Actions support
+- **Static Asset Handling**: Vite-optimized asset bundling with proper relative paths
+- **Development Integration**: Hot module replacement and development server integration
 
 ## External Dependencies
 
-### Core Technologies
-- **Database**: PostgreSQL with Neon serverless driver (@neondatabase/serverless)
-- **ORM**: Drizzle ORM with Zod validation for type-safe database operations
-- **UI Framework**: Radix UI primitives for accessible components
-- **Styling**: Tailwind CSS with PostCSS for utility-first styling
-- **Fonts**: Google Fonts (Playfair Display, Inter) for typography
-- **Icons**: Lucide React for consistent iconography
+### Core Framework Dependencies
+- **@tanstack/react-query**: Server state management and caching
+- **wouter**: Lightweight client-side routing
+- **drizzle-orm**: TypeScript ORM for database operations
+- **drizzle-kit**: Database migration and schema management tools
 
-### Development Tools
-- **Build**: Vite with React plugin and TypeScript support
-- **Code Quality**: ESBuild for production bundling
-- **Development**: tsx for TypeScript execution, cross-env for environment variables
-- **Replit Integration**: Vite plugins for Replit-specific features
+### UI and Styling Dependencies
+- **@radix-ui/***: Comprehensive set of accessible UI primitives (accordion, dialog, dropdown, etc.)
+- **tailwindcss**: Utility-first CSS framework
+- **class-variance-authority**: Utility for creating component variants
+- **clsx**: Conditional className utility
+- **lucide-react**: Icon library
 
-### Deployment
-- **GitHub Pages**: Configured for static deployment with SPA routing support
-- **Build Output**: Static files optimized for GitHub Pages with proper redirects
-- **CI/CD**: GitHub Actions workflow for automated deployment
+### Database and Backend Dependencies
+- **@neondatabase/serverless**: Serverless PostgreSQL database driver
+- **connect-pg-simple**: PostgreSQL session store for Express
+- **express**: Web framework for API endpoints
+
+### Development and Build Dependencies
+- **vite**: Build tool and development server
+- **typescript**: Type checking and compilation
+- **tsx**: TypeScript execution for development
+- **esbuild**: Fast JavaScript bundler for production builds
+
+### Validation and Utilities
+- **zod**: Schema validation for runtime type checking
+- **date-fns**: Date manipulation utilities
+- **nanoid**: Unique ID generation
+
+The application is configured for deployment on GitHub Pages with automatic builds and includes comprehensive error handling, loading states, and mobile responsiveness throughout the user experience.
