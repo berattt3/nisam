@@ -26,7 +26,7 @@ export default defineConfig(async () => {
       },
     },
     root: path.resolve(__dirname, "client"),
-    base: "/nisam/", // <-- GitHub Pages için base path (repo adıyla aynı olmalı)
+    base: "/nisam/", // GitHub Pages için repo adı ile aynı base path olmalı
     build: {
       outDir: path.resolve(__dirname, "dist/public"),
       emptyOutDir: true,

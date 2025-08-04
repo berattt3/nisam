@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,17 +15,19 @@ import SeventhPage from "@/pages/seventh-page";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={SixthPage} />
-      <Route path="/landing" component={Landing} />
-      <Route path="/second-page" component={SecondPage} />
-      <Route path="/third-page" component={ThirdPage} />
-      <Route path="/fourth-page" component={FourthPage} />
-      <Route path="/fifth-page" component={FifthPage} />
-      <Route path="/sixth-page" component={SixthPage} />
-      <Route path="/seventh-page" component={SeventhPage} />
-      <Route component={NotFound} />
-    </Switch>
+    <WouterRouter base="/nisam">
+      <Switch>
+        <Route path="/" component={SixthPage} />
+        <Route path="/landing" component={Landing} />
+        <Route path="/second-page" component={SecondPage} />
+        <Route path="/third-page" component={ThirdPage} />
+        <Route path="/fourth-page" component={FourthPage} />
+        <Route path="/fifth-page" component={FifthPage} />
+        <Route path="/sixth-page" component={SixthPage} />
+        <Route path="/seventh-page" component={SeventhPage} />
+        <Route component={NotFound} />
+      </Switch>
+    </WouterRouter>
   );
 }
 
