@@ -13,9 +13,9 @@ export default function SeventhPage() {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [noButtonVisible, setNoButtonVisible] = useState(true);
   const [showExplosion, setShowExplosion] = useState(false);
-  const [firstNoButtonPosition, setFirstNoButtonPosition] = useState({ x: 0, y: 0 });
   const [firstNoButtonVisible, setFirstNoButtonVisible] = useState(true);
   const [firstShowExplosion, setFirstShowExplosion] = useState(false);
+  const [firstHoverCount, setFirstHoverCount] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showFinalStory, setShowFinalStory] = useState(false);
   const [storyFadeIn, setStoryFadeIn] = useState(false);
@@ -64,27 +64,18 @@ export default function SeventhPage() {
     }, 3000);
   };
 
-  // İlk Hayır butonunun agresif kaçması
+  // İlk Hayır butonunun 3. hover'da imha olması
   const handleFirstNoButtonHover = () => {
-    if (!firstNoButtonRef.current) return;
-    
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    
-    // Rastgele yeni pozisyon - daha agresif
-    const newX = Math.random() * (windowWidth - 200);
-    const newY = Math.random() * (windowHeight - 200);
-    
-    setFirstNoButtonPosition({ x: newX, y: newY });
-    
-    // %70 ihtimal ile kaybolsun
-    setTimeout(() => {
-      if (Math.random() > 0.3) {
+    setFirstHoverCount(prev => {
+      const newCount = prev + 1;
+      if (newCount >= 3) {
+        // 3. hover'da imha et
         setFirstShowExplosion(true);
         setFirstNoButtonVisible(false);
         setTimeout(() => setFirstShowExplosion(false), 1500);
       }
-    }, 150);
+      return newCount;
+    });
   };
 
   const handleYesClick = () => {
@@ -582,28 +573,22 @@ export default function SeventhPage() {
                     <Button
                       ref={firstNoButtonRef}
                       onMouseEnter={handleFirstNoButtonHover}
-                      onFocus={handleFirstNoButtonHover}
-                      onMouseMove={handleFirstNoButtonHover}
                       onClick={(e) => {
                         e.preventDefault();
                         handleFirstNoButtonHover();
                         return false;
                       }}
-                      className="px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-200 fixed z-50 cursor-not-allowed animate-bounce"
-                      style={{
-                        left: `${firstNoButtonPosition.x}px`,
-                        top: `${firstNoButtonPosition.y}px`,
-                        transform: 'translate(-50%, -50%)',
-                        transition: 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-                      }}
+                      className={`px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl ${
+                        firstHoverCount >= 2 ? 'animate-pulse cursor-not-allowed' : ''
+                      }`}
                     >
-                      Hayır 😈
+                      Hayır {firstHoverCount >= 1 ? '😠' : ''} {firstHoverCount >= 2 ? '💀' : ''}
                     </Button>
                   )}
                   
                   {firstShowExplosion && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl animate-ping">💥</div>
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <div className="text-6xl animate-ping">💥💀💥</div>
                     </div>
                   )}
                 </div>
