@@ -1,4 +1,4 @@
-# 🚀 GitHub Pages Deployment Rehberi
+# 🚀 GitHub Pages Deployment Rehberi - afyonlu
 
 ## 📋 Hazır Dosyalar
 
