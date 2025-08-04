@@ -16,6 +16,7 @@ export default function SeventhPage() {
   const [firstNoButtonVisible, setFirstNoButtonVisible] = useState(true);
   const [firstShowExplosion, setFirstShowExplosion] = useState(false);
   const [firstHoverCount, setFirstHoverCount] = useState(0);
+  const [firstNoButtonPosition, setFirstNoButtonPosition] = useState({ x: 0, y: 0 });
   const [showConfetti, setShowConfetti] = useState(false);
   const [showFinalStory, setShowFinalStory] = useState(false);
   const [storyFadeIn, setStoryFadeIn] = useState(false);
@@ -64,15 +65,28 @@ export default function SeventhPage() {
     }, 3000);
   };
 
-  // İlk Hayır butonunun 3. hover'da imha olması
+  // İlk Hayır butonunun kaçması ve 3. hover'da imha olması
   const handleFirstNoButtonHover = () => {
+    if (!firstNoButtonRef.current) return;
+    
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Rastgele yeni pozisyon
+    const newX = Math.random() * (windowWidth - 200);
+    const newY = Math.random() * (windowHeight - 200);
+    
+    setFirstNoButtonPosition({ x: newX, y: newY });
+    
     setFirstHoverCount(prev => {
       const newCount = prev + 1;
       if (newCount >= 3) {
         // 3. hover'da imha et
-        setFirstShowExplosion(true);
-        setFirstNoButtonVisible(false);
-        setTimeout(() => setFirstShowExplosion(false), 1500);
+        setTimeout(() => {
+          setFirstShowExplosion(true);
+          setFirstNoButtonVisible(false);
+          setTimeout(() => setFirstShowExplosion(false), 1500);
+        }, 200);
       }
       return newCount;
     });
@@ -573,14 +587,22 @@ export default function SeventhPage() {
                     <Button
                       ref={firstNoButtonRef}
                       onMouseEnter={handleFirstNoButtonHover}
+                      onFocus={handleFirstNoButtonHover}
+                      onMouseMove={handleFirstNoButtonHover}
                       onClick={(e) => {
                         e.preventDefault();
                         handleFirstNoButtonHover();
                         return false;
                       }}
-                      className={`px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl ${
-                        firstHoverCount >= 2 ? 'animate-pulse cursor-not-allowed' : ''
+                      className={`px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-xl rounded-full transition-all duration-200 fixed z-50 cursor-not-allowed ${
+                        firstHoverCount >= 2 ? 'animate-pulse' : 'animate-bounce'
                       }`}
+                      style={{
+                        left: `${firstNoButtonPosition.x}px`,
+                        top: `${firstNoButtonPosition.y}px`,
+                        transform: 'translate(-50%, -50%)',
+                        transition: 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                      }}
                     >
                       Hayır {firstHoverCount >= 1 ? '😠' : ''} {firstHoverCount >= 2 ? '💀' : ''}
                     </Button>
