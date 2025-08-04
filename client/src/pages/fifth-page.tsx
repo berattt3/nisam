@@ -178,6 +178,13 @@ export default function FifthPage() {
               )}
               
               <Button 
+                onClick={() => setLocation("/landing")}
+                className="px-16 py-5 bg-gradient-to-r from-[var(--purple-primary)] to-[var(--purple-accent)] hover:from-[var(--purple-accent)] hover:to-[var(--purple-primary)] text-white font-inter font-semibold text-lg rounded-full transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+              >
+                Diğer Sayfaya Git ♡
+              </Button>
+              
+              <Button 
                 onClick={goBackToFourth}
                 className="px-12 py-4 bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white font-inter font-medium rounded-full transition-all duration-300 transform hover:scale-105"
               >

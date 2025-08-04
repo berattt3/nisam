@@ -87,27 +87,30 @@ export default function SeventhPage() {
     }
   }, [startCinematic, fadeIn, cinematicTexts.length]);
 
-  // Hayır butonunun kaçması
+  // Hayır butonunun agresif kaçması
   const handleNoButtonHover = () => {
     if (!noButtonRef.current) return;
     
-    const button = noButtonRef.current;
-    const rect = button.getBoundingClientRect();
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
     
-    // Rastgele yeni pozisyon
-    const newX = Math.random() * (windowWidth - rect.width - 50);
-    const newY = Math.random() * (windowHeight - rect.height - 50);
+    // Her kaçışta daha uzağa gitmesi için faktör
+    const escapeDistance = 200 + Math.random() * 300;
+    
+    // Rastgele yeni pozisyon - daha agresif
+    const newX = Math.random() * (windowWidth - 200);
+    const newY = Math.random() * (windowHeight - 200);
     
     setNoButtonPosition({ x: newX, y: newY });
     
-    // Eğer buton ekran dışına kaçarsa patlat
-    if (newX < -50 || newY < -50 || newX > windowWidth - 50 || newY > windowHeight - 50) {
-      setShowExplosion(true);
-      setNoButtonVisible(false);
-      setTimeout(() => setShowExplosion(false), 1000);
-    }
+    // 3. kaçıştan sonra butonu kaybet
+    setTimeout(() => {
+      if (Math.random() > 0.4) { // %60 ihtimal ile kaybolsun
+        setShowExplosion(true);
+        setNoButtonVisible(false);
+        setTimeout(() => setShowExplosion(false), 1500);
+      }
+    }, 100);
   };
 
   const handleFinalYes = () => {
@@ -452,14 +455,21 @@ export default function SeventhPage() {
                     ref={noButtonRef}
                     onMouseEnter={handleNoButtonHover}
                     onFocus={handleNoButtonHover}
-                    className="px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-inter font-bold text-2xl rounded-full transition-all duration-300 absolute"
+                    onMouseMove={handleNoButtonHover}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNoButtonHover();
+                      return false;
+                    }}
+                    className="px-16 py-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-red-600 hover:to-red-700 text-white font-inter font-bold text-2xl rounded-full transition-all duration-200 fixed z-50 cursor-not-allowed animate-bounce"
                     style={{
                       left: `${noButtonPosition.x}px`,
                       top: `${noButtonPosition.y}px`,
                       transform: 'translate(-50%, -50%)',
+                      transition: 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
                     }}
                   >
-                    Hayır
+                    Hayır 😈
                   </Button>
                 )}
                 

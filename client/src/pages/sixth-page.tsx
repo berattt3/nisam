@@ -401,7 +401,7 @@ export default function SixthPage() {
                 
                 <div className="mb-8 max-w-3xl mx-auto">
                   <p className="font-inter text-lg text-[var(--warm-gray)] mb-6">
-                    Prensesim Berat'înın kalbine ulaşmaya çalışıyor.  labirentte canavarlar var!
+                    Prensesim Berat'ının kalbine ulaşmaya çalışıyor.  labirentte canavarlar var!
                   </p>
                   <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl p-6 border border-purple-300/20 mb-6">
                     <p className="font-inter text-purple-600 font-medium mb-2">
@@ -674,18 +674,8 @@ export default function SixthPage() {
 
             {!gameStarted && !secondGameStarted && (
               <div className="flex gap-4 justify-center mt-8">
-                <Button 
-                  onClick={() => setLocation('/landing')}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
-                >
-                  Diğer Sayfalar
-                </Button>
-                <Button 
-                  onClick={() => setLocation('/landing')}
-                  className="bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300"
-                >
-                  2. Sayfa
-                </Button>
+                
+              
               </div>
             )}
             
